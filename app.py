@@ -12,9 +12,8 @@ from Utils.Models import Quote
 from Utils.QuoteEngine import Importer
 from Utils.MemeEngine import MemeGenerator
 
-ALLOWED_EXTENSIONS = {'png', 'jpg'}
-
 app = Flask(__name__, static_url_path='/static')
+app.config["CACHE_TYPE"] = "null"
 
 
 def setup():
@@ -46,9 +45,6 @@ def meme_rand():
     """ Generate a random meme """
     path = MemeGenerator.make_meme(random.choice(imgs), random.choice(quotes))
 
-    im = Image.open(path)
-    im.show()
-
     return render_template('meme.html', path=path)
 
 
@@ -72,14 +68,11 @@ def meme_post():
     r = requests.get(image_url)
     path = f'{wd()}/static/tmp.' + extension
     img = open(path, 'wb').write(r.content)
-    im = Image.open(path)
-    im.show()
 
     edited_path = MemeGenerator.make_meme(path, Quote(author, body))
     os.remove(path)
+    L.warning(edited_path)
 
-    im = Image.open(edited_path)
-    im.show()
     return render_template('meme.html', path=edited_path)
 
 

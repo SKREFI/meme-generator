@@ -51,12 +51,12 @@ class MemeGenerator():
         #     '.' + path.split('/')[-1].split('.')[1]
 
         # save_path = wd() + '/_data/photos/tmp/tmp_edited.png'
-        save_path = wd() + '/static/tmp_edited.' + \
+        save_path = wd() + '/static/pic.' + \
             path.split('/')[-1].split('.')[1]
 
         im = cls.place_text(im, quote, size)
         im.save(save_path)
-        return 'static/tmp_edited.' + \
+        return 'static/pic.' + \
             path.split('/')[-1].split('.')[1]
 
 
