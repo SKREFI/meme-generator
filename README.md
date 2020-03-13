@@ -1,5 +1,4 @@
 # Meme Generator
-
 Pretty simple python app runed either by CLI or Flask Web Application.
 
 My **meme** I mean a picture with some text place at a **random** position on the picture.
@@ -22,3 +21,6 @@ Or simply run `python meme.py` with no argument to get a randomly picture from  
 
 ##### My experience
 I had the task to implement the imported engine module, the meme generator engine and wire evertything together while learning python subprocces,  docx, panda, pillow, os and other modules. Work with images and drawing. Adding everything to the Flask appliction which needs knowledge in http protocols, requests's python module and Flask's requests. Overall, fun project. 
+
+
+**Note: I don't know how to solve this, when pressing random or creating new picture, Ctrl + F5 have to be pressed to clear the cache**
