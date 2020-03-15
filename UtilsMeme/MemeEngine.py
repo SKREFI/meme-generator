@@ -50,9 +50,20 @@ class MemeGenerator():
         author,  author_r = cls.split_text(author, chars)
         rows = quote_r + author_r
 
-        randomPosition = (0, getRandom(0, im.size[1] - 50 * rows))
-        draw.text(randomPosition, quote + '\n- ' +
-                  author, (255, 255, 255), font)
+        try:
+            print('Debug:', len(quote))
+            randomPosition = (0, getRandom(
+                0, im.size[1] - im.size[0]//17 * rows))
+            draw.text(randomPosition, quote + '\n- ' +
+                      author, (255, 255, 255), font)
+        except:
+            # random.randint() is helping me right here, since
+            # I am calculating the space my calculating space this way:
+            # height (500px) - ~30px (500/17) * rows (author + body)
+            # and randint() will fail if the interval is (0, negative)
+            raise Exception('Text too long for the image,\
+                             it doesn\'t fit in the image')
+
         return im
 
     def make_meme(self, path, quote, author, size=500) -> str:
@@ -79,5 +90,4 @@ if __name__ == '__main__':
     img = wd() + "/_data/photos/dog/xander_4.jpg"
     # print(meme.make_meme(img, 'This is small', "Me_SKREF"))
     print(meme.make_meme(
-          img, 'This is supposed to be a medium to large quote size',
-          "Me_SKREF"))
+          img, 'This is supposed to be a medium quote size', "Me_SKREF"))
