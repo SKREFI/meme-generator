@@ -1,7 +1,7 @@
 class Quote():
-    def __init__(self, author, quote):
+    def __init__(self, body, author):
         self.author = author
-        self.quote = quote
+        self.body = body
 
     def __repr__(self):
         return f'{self.author} -> {self.quote}'

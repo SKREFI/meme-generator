@@ -2,18 +2,21 @@ import random
 import os
 from os import getcwd as wd
 import requests
-from flask import Flask, flash, render_template, redirect, url_for, abort, request
+from flask import Flask, flash, render_template, \
+    redirect, url_for, abort, request
 from werkzeug.utils import secure_filename
 from PIL import Image
 
 
 from Utils.Loging import Log as L
-from Utils.Models import Quote
-from Utils.QuoteEngine import Importer
-from Utils.MemeEngine import MemeGenerator
+from UtilsQuote.Models import Quote
+from UtilsQuote.QuoteEngine import Importer
+from UtilsMeme.MemeEngine import MemeGenerator
 
 app = Flask(__name__, static_url_path='/static')
 app.config["CACHE_TYPE"] = "null"
+
+meme = MemeGenerator(wd() + '/static/pic.')
 
 
 def setup():
@@ -43,7 +46,10 @@ quotes, imgs = setup()
 @app.route('/', methods=['GET', 'POST'])
 def meme_rand():
     """ Generate a random meme """
-    path = MemeGenerator.make_meme(random.choice(imgs), random.choice(quotes))
+    quote = random.choice(quotes)
+    img = random.choice(imgs)
+    L.fail(img)
+    path = meme.make_meme(img, quote.body, quote.author)
 
     return render_template('meme.html', path=path)
 
@@ -69,13 +75,11 @@ def meme_post():
     path = f'{wd()}/static/tmp.' + extension
     img = open(path, 'wb').write(r.content)
 
-    edited_path = MemeGenerator.make_meme(path, Quote(author, body))
+    edited_path = meme.make_meme(path, body, author)
     os.remove(path)
-    L.warning(edited_path)
 
     return render_template('meme.html', path=edited_path)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-

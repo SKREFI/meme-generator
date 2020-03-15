@@ -23,4 +23,13 @@ Or simply run `python meme.py` with no argument to get a randomly picture from  
 I had the task to implement the imported engine module, the meme generator engine and wire evertything together while learning python subprocces,  docx, panda, pillow, os and other modules. Work with images and drawing. Adding everything to the Flask appliction which needs knowledge in http protocols, requests's python module and Flask's requests. Overall, fun project. 
 
 
+# Use of files
+- Utils.Loging.py: Simple loging class, prints colored text for visibility in the terminal
+- UtilsMeme.MemeEngine: Contains the MemeGenerator class wich has one method make_meme which takes 3 parameters, the path to the image, the Quote object and the optional size of the result image, the methode place randomly the quote on the picture.
+- UtilsQuote.Models: A fils to hold all the models, in this case, I have only a very simple one, the Quote with 2 fields, body and author
+- UtilsQuote.QuoteEngine: A class which contains all the importers for csv, txt, docx and pdf, all called by one class Importer by need.
+- meme.py is the file which handles and can be used to generate a meme via CLI
+- app.py is the Flask Web Application, html can be found in /templates
+
+
 **Note: I don't know how to solve this, when pressing random or creating new picture, Ctrl + F5 have to be pressed to clear the cache**

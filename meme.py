@@ -3,12 +3,14 @@ from os import getcwd as wd
 import random
 import argparse
 
-from Utils.QuoteEngine import Importer
-from Utils.Models import Quote
-from Utils.MemeEngine import MemeGenerator
+from UtilsQuote.QuoteEngine import Importer
+from UtilsQuote.Models import Quote
+from UtilsMeme.MemeEngine import MemeGenerator
 from Utils.Loging import Log as L
 
 # @TODO Import your Ingestor and MemeEngine classes
+
+meme = MemeGenerator(wd() + '/static/pic.')
 
 
 def generate_meme(path=None, body=None, author=None):
@@ -39,25 +41,28 @@ def generate_meme(path=None, body=None, author=None):
     else:
         if author is None:
             raise Exception('Author Required if Body is Used')
-        quote = Quote(body, author)
+        quote = Quote(author, body)
 
     # I know the signature should look like (path, quote, author, size)
-    # Quote insted of author and quote just makes more sense, I am parsing it in the function
+    # Quote insted of author and quote just makes more sense
+    # I am parsing it in the function
     # no need to be messy here
-    path = MemeGenerator.make_meme(img, quote)
+    path = meme.make_meme(img, quote.body, quote.author)
     return path
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Meme generator')
 
-    parser.add_argument('-p', '--path', help='Path to a image, path to meme-generator folder already added!',
+    parser.add_argument('-p', '--path',
+                        help='Path to a image, path \
+                        to meme-generator folder already added!',
                         default=None)
     parser.add_argument('-b', '--body', help='Quote body',
                         default=None)
     parser.add_argument('-a', '--author', help='Author\'s name', default=None)
 
     args = parser.parse_args()
-    path = generate_meme(wd() + args.path, args.author,
-                         args.body) if args.path != None else generate_meme()
+
+    path = generate_meme(args.path, args.author, args.body)
     print(path)
