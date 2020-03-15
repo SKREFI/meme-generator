@@ -58,7 +58,7 @@ class MemeGenerator():
         im = self.load_image(path, size)
         extension = path.split('/')[-1].split('.')[1]
         save_path = self.path + extension
-
+        print(save_path)
         im = self.place_text(im, quote, author, size)
         im.save(save_path)
         return 'static/pic.' + \

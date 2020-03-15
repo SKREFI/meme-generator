@@ -68,10 +68,13 @@ def meme_post():
     image_url = request.form.get('image_url')
     body = request.form.get('body', 'Default body')
     author = request.form.get('author', 'SKREFI')
-
+    try:
+        r = requests.get(image_url)
+    except:
+        L.fail('IMAGE URL NOT PROVIDED, using default')
+        image_url = 'https://i.imgur.com/NArhr29.jpg'
+        r = requests.get(image_url)
     extension = image_url.split('.')[-1]
-
-    r = requests.get(image_url)
     path = f'{wd()}/static/tmp.' + extension
     img = open(path, 'wb').write(r.content)
 
