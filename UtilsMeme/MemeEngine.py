@@ -21,28 +21,37 @@ class MemeGenerator():
         return im
 
     @classmethod
-    def place_text(cls, im: Image, quote, author, size: int):
+    def split_text(cls, text, chars):
+        words = text.split(' ')
+        new_quote = ''
+        c = chars
+        rows = 1
+        for word in words:
+            if len(word) < c - 6:
+                new_quote += word + ' '
+                c -= len(word) + 1
+            else:
+                rows += 1
+                new_quote += '\n' + word + ' '
+                c = chars
+        return new_quote, rows
+
+    @classmethod
+    def place_text(cls, im: Image, quote, author):
         '''
         Place text on a random position on the image
         '''
         draw = ImageDraw.Draw(im)
         font = ImageFont.truetype(
-            'Pillow/Tests/fonts/FreeMono.ttf', 30)
+            'Pillow/Tests/fonts/FreeMono.ttf', im.size[0]//17)
 
         chars = im.size[0]//18
-        quote = quote.split(' ')
-        new_quote = ''
-        rows = 1
-        for word in quote:
-            if len(word) < chars:
-                new_quote += word + ' '
-                chars -= len(word) + 1
-            else:
-                rows += 1
-                new_quote += '\n' + word + ' '
-                chars = im.size[0]//18
+        quote, quote_r = cls.split_text(quote, chars)
+        author,  author_r = cls.split_text(author, chars)
+        rows = quote_r + author_r
+
         randomPosition = (0, getRandom(0, im.size[1] - 50 * rows))
-        draw.text(randomPosition, new_quote + '\n- ' +
+        draw.text(randomPosition, quote + '\n- ' +
                   author, (255, 255, 255), font)
         return im
 
@@ -59,7 +68,7 @@ class MemeGenerator():
         extension = path.split('/')[-1].split('.')[1]
         save_path = self.path + extension
         print(save_path)
-        im = self.place_text(im, quote, author, size)
+        im = self.place_text(im, quote, author)
         im.save(save_path)
         return 'static/pic.' + \
             path.split('/')[-1].split('.')[1]

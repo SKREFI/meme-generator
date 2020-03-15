@@ -6,10 +6,8 @@ My **meme** I mean a picture with some text place at a **random** position on th
 
 # How to run
 ##### Flask Web App
-$ `cd path/to/project`
-In this case the app.py is located in the root folder
-$ `export FLASK_APP=hello.py`
-$ `flask run`
+**Simply run the app.py file!**
+$ `python app.py`
 
 ##### Or run in by CLI
 For direct help in the CLI:
